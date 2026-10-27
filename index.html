@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>EduFix TLE · Troubleshooting for Everyone</title>
+<title>EduFix</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <style>
 :root{--bg:#eef1ee;--sf:#fbfcfb;--ink:#17201c;--mu:#59665f;--ln:#cfd8d2;--ac:#a8480f;--ai:#fff;--as:#f6e4d6;--bd:#1f4a3c;--ok:#1d6b3a;--bad:#a3262a;--d:'Familjen Grotesk',system-ui,sans-serif;--b:'IBM Plex Sans',system-ui,sans-serif;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -15,7 +15,7 @@ header .w{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .logo{font:700 1.3rem var(--d);display:flex;gap:8px;align-items:center}.logo i{width:24px;height:24px;background:var(--bd);border-radius:3px;border:2px solid var(--ac)}
 .tabs{display:flex;gap:2px;flex-wrap:wrap;flex:1}
 button{font:inherit;color:inherit;cursor:pointer}
-.tab{border:0;background:none;padding:6px 10px;border-radius:6px;color:var(--mu);font-weight:500;font-size:.9rem}.tab[aria-current=true]{color:var(--ink);box-shadow:inset 0 -2px var(--ac)}
+.tab{border:0;background:none;padding:6px 10px;border-radius:6px;color:var(--mu);font-weight:500;font-size:.9rem}
 .chip{border:1px solid var(--ln);background:var(--sf);border-radius:8px;padding:6px 10px;font-size:.85rem}
 :focus-visible{outline:3px solid var(--ac);outline-offset:2px}
 .hero{background:var(--bd);color:#e8f3ee;border-radius:12px;padding:28px;margin:20px 0}.hero h1{font-size:clamp(1.8rem,5vw,2.8rem)}.hero p{margin-top:10px;max-width:60ch;opacity:.9}
@@ -42,8 +42,38 @@ ol.r li{margin-bottom:10px}footer{color:var(--mu);font-size:.85rem;padding:24px 
 .pg{height:5px;background:var(--ln)}.pg i{display:block;height:100%;background:var(--ac)}.pg i.go{animation:pgr 6s linear forwards}@keyframes pgr{from{width:0}to{width:100%}}
 .dots{display:flex;gap:6px;margin-left:auto}.dots button{width:12px;height:12px;border-radius:50%;border:1px solid var(--ink);background:none;padding:0}.dots button.on{background:var(--ac);border-color:var(--ac)}
 .pl svg{animation:fadeIn .5s}@keyframes fadeIn{from{opacity:.3}to{opacity:1}}@media(prefers-reduced-motion:reduce){.pl svg,.pg i.go{animation:none}}
+
+/* ---- v2: navigation ---- */
+.tab{display:flex;align-items:center;gap:6px;padding:8px 12px;min-height:44px;font-size:.95rem}
+.tab[aria-current=true]{background:var(--ac);color:var(--ai);box-shadow:none}.tab .ti{font-size:1.1rem;line-height:1}
+.crumb{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0 0;font-size:.9rem;color:var(--mu)}
+.crumb button{border:1px solid var(--ln);background:var(--sf);border-radius:8px;padding:6px 12px;font-weight:600;min-height:36px}.crumb b{color:var(--ink)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+@media(max-width:760px){header .tabs{position:fixed;left:0;right:0;bottom:0;z-index:9;background:var(--sf);border-top:1px solid var(--ln);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));justify-content:space-around;flex-wrap:nowrap;gap:2px}
+.tab{flex-direction:column;gap:0;font-size:.72rem;padding:4px 2px;flex:1;justify-content:center;min-height:52px}.tab .ti{font-size:1.3rem}body{padding-bottom:88px}.sg>.card{order:-1}}
+/* ---- v2: video ---- */
+.vf{position:relative;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#000;margin-top:12px}
+.vf iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vf.nov{display:flex;align-items:center;justify-content:center;text-align:center;color:#e8f3ee;background:var(--bd);padding:16px}
+.vn{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.vn .btn{margin-top:0}
+.vl{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.vl input{flex:1;min-width:200px;font:inherit;padding:9px 12px;border:1px solid var(--ln);border-radius:8px;background:var(--bg);color:var(--ink)}
+.vl .btn{margin-top:0}
+/* ---- v2: 3D lab ---- */
+.sc3{height:330px;perspective:1100px;display:flex;align-items:center;justify-content:center;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;border:1px solid var(--ln);border-radius:10px;background:radial-gradient(circle at 50% 40%,var(--sf),var(--bg));overflow:hidden;position:relative}
+.sc3:active{cursor:grabbing}
+.world{position:relative;width:0;height:0;transform-style:preserve-3d}
+.bx,.sp{position:absolute;left:0;top:0;width:0;height:0;transform-style:preserve-3d}
+.bx:not(.pt){pointer-events:none}
+.bx i{position:absolute;display:flex;align-items:center;justify-content:center;overflow:hidden;font:600 10px/1.2 var(--b);font-style:normal;color:#fff;text-align:center;border:1px solid rgba(0,0,0,.5);box-sizing:border-box;backface-visibility:visible}
+.bx.pt i{cursor:pointer;box-shadow:inset 0 0 12px 3px rgba(255,170,90,.9)}.bx.pt:hover i{filter:brightness(1.25)}
+.bx.ts i{box-shadow:inset 0 0 12px 3px rgba(80,220,130,.95)}
+.sp.spin{animation:spx 1.1s linear infinite}@keyframes spx{to{transform:rotateX(360deg)}}
+@media(prefers-reduced-motion:reduce){.sp.spin{animation:none}}
+.scr{padding:4px;font-size:12px;line-height:1.3}
+.vwb{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;align-items:center}.vwb .chip{min-height:40px}
 </style></head><body>
-<header><div class="w"><div class="logo"><i></i>EduFix TLE</div><nav class="tabs" id="tabs" aria-label="Tracks"></nav><button class="chip" id="th">Theme</button></div></header>
+<header><div class="w"><div class="logo"><i></i>EduFix</div><nav class="tabs" id="tabs" aria-label="Tracks"></nav><button class="chip" id="th">Theme</button></div></header>
 <main class="w" id="v"></main>
 <footer class="w">Troubleshooting content is organized around DepEd TLE–ICT Computer Systems Servicing themes, arranged as one path for all learners. Check the latest DepEd curriculum guides with your teacher before official use.</footer>
 <script>
@@ -86,8 +116,8 @@ let page="home",mi=0,st=0,pick=-1,fb=null;
 const $=s=>document.querySelector(s),dn=i=>P["m"+i]||0,tot=ALL.length*7,got=()=>ALL.reduce((a,_,i)=>a+dn(i),0),pc=()=>Math.round(got()/tot*100);
 const lock=i=>!P.open&&i>0&&dn(i-1)<7,nxt=()=>{const i=ALL.findIndex((_,j)=>dn(j)<7);return i<0?0:i};
 const openBox=()=>`<label class="opt" style="margin-top:14px"><input type="checkbox" id="op" ${P.open?"checked":""}> I already know some of this: unlock all modules so I can jump ahead</label>`;
-function tabs(){$("#tabs").innerHTML=[["home","Home"],["learn","Learning path"],["vid","Videos"],["sim","Troubleshooter"],["rad","RAD model"]].map(([k,l])=>`<button class="tab" data-p="${k}" ${page===k?'aria-current="true"':''}>${l}</button>`).join("")}
-function home(){let g=0;return`<section class="hero"><div class="eb" style="color:#9fd0bd">Open to everyone</div><h1>Find the fault. Fix it safely.</h1><p>Learn computer troubleshooting on one path open to everyone, with no grade or age requirement. Every module follows the 7E cycle. Finish a stage to unlock the next, pass the check question, then move on.</p><div class="bar"><b style="width:${pc()}%"></b></div><p style="font-size:.85rem">${pc()}% complete · ${got()} of ${tot} stages</p><button class="btn" data-c="1">${got()?"Continue where you left off":"Start learning"}</button><button class="btn g" data-p="sim" style="margin-left:8px;color:#e8f3ee;border-color:#e8f3ee">Try the troubleshooting machine</button><button class="btn g" data-p="vid" style="margin-left:8px;color:#e8f3ee;border-color:#e8f3ee">Watch video lessons</button></section>
+function tabs(){$("#tabs").innerHTML=[["home","🏠","Home"],["learn","📚","Learn"],["vid","🎬","Videos"],["sim","🔧","3D Lab"],["rad","🧭","RAD model"]].map(([k,i,l])=>`<button class="tab" data-p="${k}" ${page===k?'aria-current="page"':''}><span class="ti" aria-hidden="true">${i}</span><span>${l}</span></button>`).join("")}
+function home(){let g=0;return`<section class="hero"><div class="eb" style="color:#9fd0bd">Open to everyone</div><h1>Find the fault. Fix it safely.</h1><p>Learn computer troubleshooting on one path open to everyone, with no grade or age requirement. Every module follows the 7E cycle. Finish a stage to unlock the next, pass the check question, then move on.</p><div class="bar"><b style="width:${pc()}%"></b></div><p style="font-size:.85rem">${pc()}% complete · ${got()} of ${tot} stages</p><button class="btn" data-c="1">${got()?"Continue where you left off":"Start learning"}</button><button class="btn g" data-p="sim" style="margin-left:8px;color:#e8f3ee;border-color:#e8f3ee">Try the 3D troubleshooter</button><button class="btn g" data-p="vid" style="margin-left:8px;color:#e8f3ee;border-color:#e8f3ee">Watch video lessons</button></section>
 <div class="tracks">${LV.map(l=>`<div class="tr"><div class="eb">${l[0]}</div><h3 style="margin:6px 0">${l[1]}</h3>${l[2].map(m=>{const i=g++;return`<button class="mod" data-m="${i}" ${lock(i)?"disabled":""}><b>${lock(i)?"🔒 ":dn(i)===7?"✓ ":""}${m.t}</b><small>${dn(i)}/7 stages</small></button>`}).join("")}</div>`).join("")}</div>${openBox()}
 <h2 style="margin:28px 0 12px">The 7E path</h2><div class="card">${STG.map((s,i)=>`<span class="tg"><b>${i+1}</b> ${s[0]}</span>`).join("")}<p style="margin-top:8px;color:var(--mu)">From prior knowledge to real-world action, each stage has one clear job.</p></div>`}
 function learn(){const m=ALL[mi],d=dn(mi);let g=0;
@@ -97,7 +127,8 @@ function stage(m,d){const i=st,h=`<div class="eb">${STG[i][1]}</div>`;
 if(i===5){const[q,o]=m.q;return h+`<h3 style="margin:8px 0">${q}</h3>`+o.map((x,j)=>`<label class="opt"><input type="radio" name="q" value="${j}" ${pick===j?"checked":""}> ${x}</label>`).join("")+`<button class="btn" id="chk">Check answer</button>`+(fb?`<p class="fb ${fb[0]}">${fb[1]}</p>`:"")}
 return h+`<p style="margin-top:8px;font-size:1.05rem">${m.s[i>5?5:i]}</p>`+((i===1||i===3)?figure(mi):"")+(i===3?`<button class="btn g" data-v="open" data-a="${mi}" style="margin-right:8px">▶ Watch the video lesson</button>`:"")+(i===2?`<button class="btn g" data-p="sim" style="margin-right:8px">Open the troubleshooter</button>`:"")+`<button class="btn" id="nx">${i===6?(d>=7?"Module complete ✓":"Finish module"):"Done, continue"}</button>`+(i===6&&d>=7&&mi<ALL.length-1?`<button class="btn g" style="margin-left:8px" data-m="${mi+1}">Next module</button>`:"")}
 function rad(){return`<section class="hero"><div class="eb" style="color:#9fd0bd">Development approach</div><h1>Built with the RAD model</h1><p>Rapid Application Development favors quick prototypes and constant user feedback over long up-front specifications.</p></section><ol class="r" style="padding-left:18px">${RAD.map(r=>`<li><div class="card"><h3>${r[0]}</h3><p style="margin-top:6px">${r[1]}</p></div></li>`).join("")}</ol><button class="btn g" id="rs">Reset my progress</button>`}
-function draw(){clearInterval(VT);VT=null;tabs();$("#v").innerHTML=page==="home"?home():page==="rad"?rad():page==="sim"?sim():page==="vid"?vids():learn();if(page==="vid"&&VP)vtimer()}
+const crumb=()=>{if(page==="home")return"";const L={learn:"Learning path",vid:"Video lessons",sim:"3D Lab",rad:"RAD model"};const t=page==="learn"?` › <b>Module ${mi+1}: ${ALL[mi].t}</b>`:page==="vid"?` › <b>Module ${VM+1}: ${ALL[VM].t}</b>`:"";return`<nav class="crumb" aria-label="You are here"><button data-p="home">← Home</button><span>${L[page]}${t}</span></nav>`};
+function draw(){tabs();$("#v").innerHTML=crumb()+(page==="home"?home():page==="rad"?rad():page==="sim"?sim():page==="vid"?vids():learn());if(page==="sim")ap()}
 const go=i=>{page="learn";mi=i;st=Math.min(dn(i),6);pick=-1;fb=null;scrollTo(0,0)};
 document.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
 if(b.id==="th"){const r=document.documentElement,d=r.dataset.theme==="dark"||(!r.dataset.theme&&matchMedia("(prefers-color-scheme:dark)").matches);r.dataset.theme=d?"light":"dark";return}
@@ -109,6 +140,7 @@ else if(b.dataset.t){if(!S.run[b.dataset.t]){S.run[b.dataset.t]=1;S.order.push(b
 else if(b.dataset.g!==undefined){const g=+b.dataset.g;if(g===SC[S.s].a){S.solved=true;S.fb=""}else{S.wrong++;S.fb="Not that one. Re-read your findings log and look for the clue you have not explained yet."}}
 else if(b.id==="snx"){S=ns((S.s+1)%SC.length)}
 else if(b.id==="sre"){S=ns(S.s)}
+else if(b.dataset.vw!==undefined){R=Object.assign({},VWS[+b.dataset.vw])}
 else if(b.dataset.m!==undefined)go(+b.dataset.m);
 else if(b.dataset.s!==undefined){st=+b.dataset.s;pick=-1;fb=null}
 else if(b.id==="nx"){if(dn(mi)===st){P["m"+mi]=st+1;sv()}if(st<6)st++;pick=-1;fb=null}
@@ -185,26 +217,48 @@ const SC=[
 {n:"One PC offline",sym:"This lab PC has no network while the others work fine.",a:6,scr:["#2a6f5a",["No network"]],def:"Nothing unusual here.",r:{ask:"Nothing changed, but the PC was pushed against the wall.",link:"Link light is off. The cable is half out of the wall jack.",ipc:"IP 169.254.12.7: self-assigned, so DHCP was never reached.",pgw:"Request timed out.",pip:"Request timed out.",pname:"Request timed out."},fix:"Reseat or replace the cable, then renew the IP address."}
 ];
 const ns=s=>({s,run:{},order:[],wrong:0,solved:false,fb:""});let S=ns(0);
-function pcSVG(sc,ok){const on=ok||sc.a!==0,f=ok?["var(--ok)",["Fixed","System running normally"]]:sc.scr;
-const lines=f[1].map((l,i)=>`<text x="320" y="${108+i*24-(f[1].length-1)*12}" text-anchor="middle" font-size="15" fill="#fff">${l}</text>`).join("");
-const shown=S.run.temp||ok,deg=ok?52:(sc.a===3?96:45),h=Math.min(110,Math.max(4,(deg-20)*1.2));
-return`<svg viewBox="0 0 640 215" role="img" aria-label="Virtual PC showing the current symptom" style="width:100%;height:auto;display:block;font-family:var(--b)">
-<rect x="30" y="30" width="100" height="160" rx="8" fill="var(--sf)" stroke="var(--ink)" stroke-width="2"/><circle cx="80" cy="55" r="7" fill="${on?"var(--ok)":"#666"}"/><circle cx="80" cy="130" r="28" fill="none" stroke="var(--ln)" stroke-width="3"/>
-<g ${on?'class="fan"':''} style="transform-origin:80px 130px"><path d="M80 130 L80 106 M80 130 L101 142 M80 130 L59 142" stroke="var(--ac)" stroke-width="6" stroke-linecap="round"/></g>
-<rect x="170" y="20" width="300" height="170" rx="8" fill="var(--ink)"/><rect x="180" y="30" width="280" height="150" rx="4" fill="${f[0]}"/>${lines}
-<rect x="300" y="190" width="40" height="10" fill="var(--ink)"/>
-<text x="555" y="22" text-anchor="middle" font-size="12" fill="var(--mu)">CPU temp</text><rect x="540" y="30" width="30" height="120" rx="6" fill="var(--ln)"/>${shown?`<rect x="540" y="${150-h}" width="30" height="${h}" rx="6" fill="${deg>85?"var(--bad)":"var(--ok)"}"/>`:""}
-<text x="555" y="172" text-anchor="middle" font-size="14" fill="var(--ink)">${shown?deg+" °C":"? (not tested)"}</text></svg>`}
+const PM={cord:"cord",ram:"ram",hdd:"smart",fan:"temp",disp:"disp",lan:"link",led:"beep"};
+let R={x:-14,y:-32},DR=null;const VWS=[{x:-14,y:-32},{x:-6,y:0},{x:-8,y:180},{x:-78,y:-20}];
+function b3(o){const{w,h,d,x,y,z,col,op=1,p,t="",fh}=o;
+const f=(tr,fw,fhh,inner)=>`<i style="width:${fw}px;height:${fhh}px;left:${-fw/2}px;top:${-fhh/2}px;background:${col};opacity:${op};transform:${tr}">${inner}</i>`;
+const faces=f(`translateZ(${d/2}px)`,w,h,fh||t)+f(`translateZ(${-d/2}px) rotateY(180deg)`,w,h,t)+f(`rotateY(90deg) translateZ(${w/2}px)`,d,h,t)+f(`rotateY(-90deg) translateZ(${w/2}px)`,d,h,t)+f(`rotateX(90deg) translateZ(${h/2}px)`,w,d,"")+f(`rotateX(-90deg) translateZ(${h/2}px)`,w,d,"");
+return`<div class="bx${p?" pt":""}${p&&S.run[PM[p]]?" ts":""}"${p?` data-part="${p}"`:""} style="transform:translate3d(${x}px,${y}px,${z}px)"><div class="sp${o.cls?" "+o.cls:""}">${faces}</div></div>`}
+function pc3D(sc,ok){const on=ok||sc.a!==0,f=ok?["#1d6b3a",["Fixed","System running normally"]]:(on?sc.scr:["#050807",[]]);
+const shown=S.run.temp||ok,deg=ok?52:(sc.a===3?96:45),cx=-85,mx=95;
+const scr=f[1].length?`<span class="scr">${f[1].join("<br>")}</span>`:"";
+const P=[
+b3({w:360,h:4,d:230,x:5,y:99,z:0,col:"#8a7a66",op:.5}),
+b3({w:130,h:190,d:150,x:cx,y:0,z:0,col:"#7fb3a0",op:.28}),
+b3({w:4,h:150,d:120,x:cx-52,y:-5,z:0,col:"#1f6b46"}),
+b3({w:10,h:60,d:30,x:cx-44,y:-55,z:-20,col:"#2740a8",p:"ram",t:"RAM"}),
+b3({w:16,h:46,d:46,x:cx-42,y:-5,z:28,col:"#555a63",p:"fan",t:"FAN"+(shown?"<br>"+deg+"°C":""),cls:on?"spin":""}),
+b3({w:56,h:22,d:84,x:cx+30,y:35,z:10,col:"#7a808a",p:"hdd",t:"HDD"}),
+b3({w:110,h:40,d:70,x:cx,y:72,z:-38,col:"#33373d",p:"cord",t:"PSU"}),
+b3({w:18,h:18,d:34,x:cx,y:72,z:-92,col:"#111",p:"cord",t:"AC"}),
+b3({w:28,h:16,d:6,x:cx+30,y:-30,z:-76,col:"#1f8fb0",p:"lan",t:"LAN"}),
+b3({w:10,h:10,d:34,x:cx+30,y:-30,z:-95,col:"#1f8fb0",p:"lan"}),
+b3({w:20,h:20,d:6,x:cx,y:-78,z:78,col:on?"#2fd06a":"#555",p:"led",t:"LED"}),
+b3({w:150,h:100,d:10,x:mx,y:-5,z:0,col:f[0],p:"disp",fh:scr}),
+b3({w:12,h:44,d:12,x:mx,y:67,z:0,col:"#333"}),
+b3({w:60,h:6,d:40,x:mx,y:92,z:0,col:"#333"})];
+return`<div class="sc3" id="sc3" role="group" aria-label="Interactive 3D virtual PC. Drag to rotate. Tap a glowing part to test it."><div class="world" id="w3">${P.join("")}</div></div>
+<div class="vwb"><span class="eb">View</span>${["Reset","Front","Back","Top"].map((l,i)=>`<button class="chip" data-vw="${i}">${l}</button>`).join("")}<span style="color:var(--mu);font-size:.85rem">👆 Drag to rotate · tap a glowing part to test it</span></div>`}
+function ap(){const w=document.querySelector("#w3"),s=document.querySelector("#sc3");if(!w||!s)return;const k=Math.min(1,s.clientWidth/430);w.style.transform=`scale(${k}) rotateX(${R.x}deg) rotateY(${R.y}deg)`}
+addEventListener("resize",ap);
+document.addEventListener("pointerdown",e=>{const s=e.target.closest&&e.target.closest("#sc3");if(!s)return;DR={x:e.clientX,y:e.clientY,rx:R.x,ry:R.y,m:false,p:e.target.closest("[data-part]")};try{s.setPointerCapture(e.pointerId)}catch(_){}});
+document.addEventListener("pointermove",e=>{if(!DR)return;const dx=e.clientX-DR.x,dy=e.clientY-DR.y;if(Math.abs(dx)+Math.abs(dy)>8)DR.m=true;if(DR.m){R.y=DR.ry+dx*.55;R.x=Math.max(-85,Math.min(85,DR.rx-dy*.55));ap()}});
+const pend=e=>{if(!DR)return;const d=DR;DR=null;if(!d.m&&d.p&&e.type==="pointerup"&&!S.solved){const id=PM[d.p.dataset.part];if(id&&!S.run[id]){S.run[id]=1;S.order.push(id)}draw()}};
+document.addEventListener("pointerup",pend);document.addEventListener("pointercancel",pend);
 function sim(){const sc=SC[S.s],ok=S.solved,n=S.order.length;
 const tests=TL.map(t=>`<button class="mod${S.run[t[0]]?" tdone":""}" data-t="${t[0]}" ${ok?"disabled":""}><b>${S.run[t[0]]?"✓ ":""}${t[1]}</b></button>`).join("");
 const log=n?`<ol class="tlog" style="padding-left:20px">${S.order.map(id=>`<li><b>${TL.find(t=>t[0]===id)[1]}</b><br>${sc.r[id]||sc.def}</li>`).join("")}</ol>`:`<p style="color:var(--mu)">No tests yet. Start with the cheapest, safest check.</p>`;
 const rate=n<=3?"Efficient: you followed the clues.":n<=6?"Good: a few extra checks.":"Thorough, but try to narrow down faster using the symptom.";
 const done=ok?`<div class="card" style="margin-top:14px;border-color:var(--ok)"><h3 style="color:var(--ok)">Correct: ${CZ[sc.a]}</h3><p style="margin-top:6px"><b>Fix:</b> ${sc.fix}</p><p style="margin-top:6px"><b>Score:</b> ${n} test${n===1?"":"s"}, ${S.wrong} wrong guess${S.wrong===1?"":"es"}. ${rate}</p><div class="eb" style="margin-top:12px">Service log (step 6: document)</div><p>Symptom: ${sc.sym}<br>Tests: ${S.order.map(id=>TL.find(t=>t[0]===id)[1]).join("; ")}<br>Cause: ${CZ[sc.a]}<br>Fix: ${sc.fix}<br>Verified: system works normally.</p><button class="btn" id="snx">Next fault</button><button class="btn g" id="sre" style="margin-left:8px">Replay this one</button></div>`
 :`<div class="eb" style="margin-top:14px">3 · Make your diagnosis</div>${CZ.map((c,i)=>`<button class="mod" data-g="${i}" ${n?"":"disabled"}>${c}</button>`).join("")}${n?"":`<p style="color:var(--mu)">Run at least one test first. Guessing is not troubleshooting.</p>`}${S.fb?`<p class="fb no">${S.fb}</p>`:""}`;
-return`<section class="hero"><div class="eb" style="color:#9fd0bd">Interactive</div><h1>Troubleshooting Machine</h1><p>Pick a faulty PC, run tests one at a time like a real technician, read the evidence, then diagnose. Fewer, smarter tests score better.</p></section>
+return`<section class="hero"><div class="eb" style="color:#9fd0bd">Interactive</div><h1>3D Troubleshooting Lab</h1><p>Pick a fault, then turn the virtual PC with your finger or mouse. Tap a glowing part to test it, read the evidence, then diagnose. Fewer, smarter tests score better.</p></section>
 <div class="chips" role="group" aria-label="Choose a fault">${SC.map((x,i)=>`<button class="chip${i===S.s?" on":""}" data-sc="${i}">${i+1}. ${x.n}</button>`).join("")}</div>
-<div class="grid" style="margin-top:16px"><div><div class="eb" style="margin-bottom:6px">1 · Run a test</div>${tests}</div>
-<div class="card">${pcSVG(sc,ok)}<p style="margin-top:8px"><b>Ticket:</b> ${sc.sym}</p><div class="eb" style="margin-top:12px">2 · Findings log</div>${log}${done}</div></div>`}
+<div class="grid sg" style="margin-top:16px"><div><div class="eb" style="margin-bottom:6px">1 · Run a test (or tap a glowing part in 3D)</div>${tests}</div>
+<div class="card">${pc3D(sc,ok)}<p style="margin-top:8px"><b>Ticket:</b> ${sc.sym}</p><div class="eb" style="margin-top:12px">2 · Findings log</div>${log}${done}</div></div>`}
 
 /* ---------- Video lessons ---------- */
 const VID=[
@@ -218,21 +272,26 @@ const VID=[
 [["Why keep logs","Without records, the same fault returns and nobody knows what was done."],["What to record","Date, symptom, cause, fix, parts used and technician."],["Prevent faults","Schedule dust cleaning, updates, backups and cable checks."],["Spot patterns","Review the log to find repeated causes and fix them for good."]],
 [["Triage tickets","With several faults, do not just take them in order."],["Safety first","Hazards come before everything else."],["Impact next","Then fix what blocks many users, then the quick wins."],["Close properly","Verify full function and document before closing each ticket."]]];
 const YT=["computer troubleshooting methodology CompTIA A+","PC will not turn on power supply test","how to gather symptoms computer repair beep codes","RAM reseat hard drive SMART check monitor no signal","clean dust laptop overheating thermal paste","Windows Safe Mode driver rollback","ping ipconfig DNS network troubleshooting","IT service log preventive maintenance","IT help desk ticket prioritization"];
-let VM=0,VS=0,VP=false,VT=null,NAR=false;
-function say(){try{if(NAR&&typeof speechSynthesis!=="undefined"){speechSynthesis.cancel();const s=VID[VM][VS];speechSynthesis.speak(new SpeechSynthesisUtterance(s[0]+". "+s[1]))}}catch(e){}}
-function player(){const sc=VID[VM][VS];return`<div class="pl" id="pl"><div style="padding:12px">${ART[VM]()}</div><div class="pg"><i class="${VP?"go":""}" ${VP?"":'style="width:'+((VS+1)/4*100)+'%"'}></i></div><div class="scn"><div class="eb">Scene ${VS+1} of 4</div><b>${sc[0]}</b><p style="margin-top:4px">${sc[1]}</p></div><div class="cl"><button class="chip" data-v="b" aria-label="Previous scene">⏮</button><button class="chip" data-v="p">${VP?"⏸ Pause":"▶ Play"}</button><button class="chip" data-v="n" aria-label="Next scene">⏭</button><button class="chip${NAR?" on":""}" data-v="nar" aria-pressed="${NAR}">🔊 Narration</button><div class="dots">${[0,1,2,3].map(i=>`<button data-v="s" data-a="${i}" class="${i===VS?"on":""}" aria-label="Scene ${i+1}"></button>`).join("")}</div></div></div>`}
-function upl(){const e=document.querySelector("#pl");if(e)e.outerHTML=player()}
-function vtimer(){clearInterval(VT);VT=setInterval(()=>{if(VS<3){VS++;say()}else{VP=false;clearInterval(VT);VT=null}upl()},6000)}
-function vctl(k,a){if(k==="open"){VM=+a;VS=0;VP=false;page="vid";draw();scrollTo(0,0);return}
-if(k==="m"){VM=+a;VS=0;VP=false;draw();return}
-if(k==="p"){VP=!VP;if(VP){if(VS===3&&!VT)VS=0;say();vtimer()}else{clearInterval(VT);VT=null;try{speechSynthesis.cancel()}catch(e){}}}
-else if(k==="n"){VS=Math.min(3,VS+1);say();if(VP)vtimer()}else if(k==="b"){VS=Math.max(0,VS-1);say();if(VP)vtimer()}
-else if(k==="s"){VS=+a;say();if(VP)vtimer()}else if(k==="nar"){NAR=!NAR;if(NAR)say();else{try{speechSynthesis.cancel()}catch(e){}}}
-upl();const t=document.querySelector("#pl");if(t&&k==="nar")t.querySelector('[data-v="nar"]').focus()}
-function vids(){return`<section class="hero"><div class="eb" style="color:#9fd0bd">Watch and learn</div><h1>Video lessons</h1><p>Short animated lessons for every module. Press play, step through scenes, or turn on narration to hear each scene read aloud.</p></section>
-<div class="grid"><div>${ALL.map((m,i)=>`<button class="mod" data-v="m" data-a="${i}" ${i===VM?'aria-current="true"':''}><b>▶ ${m.t}</b><small>4 scenes · about 25 seconds</small></button>`).join("")}</div>
-<div class="card"><div class="eb">Module ${VM+1} of ${ALL.length}</div><h3>${ALL[VM].t}</h3>${player()}
-<h3 style="margin-top:20px;font-size:1.05rem">Keep watching online</h3><p style="color:var(--mu);margin-top:4px">Opens a YouTube search for this topic. Choose videos from trusted channels, and ask your teacher if unsure.</p><p style="margin-top:8px"><a href="https://www.youtube.com/results?search_query=${encodeURIComponent(YT[VM])}" target="_blank" rel="noopener" style="color:var(--ac);font-weight:600">Search YouTube: ${YT[VM]} ↗</a></p></div></div>`}
+// Video IDs below came from web search results; teachers can paste a different YouTube link per module.
+const YID={0:"GQSUeIPw-3Q",1:"pAG1ezEjcZo",2:"cgT5TCurtjY",3:"DLxNPBQBfT8",4:"AD5jpqVoOu0",5:"qIenQsBAg2U",6:"fKPaw2tM88s",7:"rtZCnNCsQ2E",8:"oWtXMMQmPuk"};
+let VM=0;
+const ytid=u=>{u=String(u||"").trim();const m=u.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([\w-]{11})/);return m?m[1]:/^[\w-]{11}$/.test(u)?u:null};
+const vid=i=>(P.vu&&P.vu[i]&&ytid(P.vu[i]))||YID[i]||null;
+function player(){const id=vid(VM);return id?`<div class="vf"><iframe src="https://www.youtube-nocookie.com/embed/${id}?rel=0" title="Video lesson: ${ALL[VM].t}" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>`:`<div class="vf nov"><div><b>No video linked for this module yet</b><p style="margin-top:6px">Open the YouTube search below, pick a video, and paste its link to embed it here.</p></div></div>`}
+function vctl(k,a){if(k==="open"){VM=+a;page="vid";draw();scrollTo(0,0);return}
+if(k==="m"){VM=Math.max(0,Math.min(ALL.length-1,+a));draw();scrollTo(0,0);return}
+if(k==="save"){const id=ytid(document.querySelector("#vu").value);if(!id){document.querySelector("#ve").textContent="That does not look like a YouTube link. Try again.";return}P.vu=P.vu||{};P.vu[VM]=id;sv();draw();return}
+if(k==="clr"){if(P.vu)delete P.vu[VM];sv();draw()}}
+function vids(){const m=ALL[VM],has=i=>!!vid(i);
+return`<section class="hero"><div class="eb" style="color:#9fd0bd">Watch and learn</div><h1>Video lessons</h1><p>Real videos for each module. Pick a module on the left, press play, then use Previous and Next to move along.</p></section>
+<div class="grid"><div>${ALL.map((x,i)=>`<button class="mod" data-v="m" data-a="${i}" ${i===VM?'aria-current="true"':''}><b>${has(i)?"▶":"🔎"} ${i+1}. ${x.t}</b><small>${has(i)?"Video ready":"Find a video"}</small></button>`).join("")}</div>
+<div class="card"><div class="eb">Module ${VM+1} of ${ALL.length}</div><h3>${m.t}</h3>${player()}
+<div class="vn"><button class="btn g" data-v="m" data-a="${VM-1}" ${VM===0?"disabled":""}>← Previous</button><button class="btn" data-v="m" data-a="${VM+1}" ${VM===ALL.length-1?"disabled":""}>Next →</button><button class="btn g" data-m="${VM}">Go to this lesson</button></div>
+<details style="margin-top:16px"><summary style="cursor:pointer;font-weight:600">Key points to listen for</summary><ul>${VID[VM].map(s=>`<li><b>${s[0]}.</b> ${s[1]}</li>`).join("")}</ul></details>
+<h3 style="margin-top:20px;font-size:1.05rem">Use a different video</h3>
+<p style="color:var(--mu);margin-top:4px">Find one on YouTube, then paste the link here. It is saved on this device. Preview any video first, and ask your teacher if unsure.</p>
+<p style="margin-top:8px"><a href="https://www.youtube.com/results?search_query=${encodeURIComponent(YT[VM])}" target="_blank" rel="noopener" style="color:var(--ac);font-weight:600">Search YouTube: ${YT[VM]} ↗</a></p>
+<div class="vl"><input id="vu" type="url" inputmode="url" placeholder="https://www.youtube.com/watch?v=..." aria-label="YouTube link"><button class="btn" data-v="save">Use this video</button>${P.vu&&P.vu[VM]?'<button class="btn g" data-v="clr">Remove mine</button>':""}</div><p id="ve" class="fb no" role="alert"></p></div></div>`}
 
 draw();
 </script></body></html>
