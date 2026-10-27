@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EduFix TLE · Troubleshooting for Everyone</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#eef1ee;--sf:#fbfcfb;--ink:#17201c;--mu:#59665f;--ln:#cfd8d2;--ac:#a8480f;--ai:#fff;--as:#f6e4d6;--bd:#1f4a3c;--ok:#1d6b3a;--bad:#a3262a;--d:'Familjen Grotesk',system-ui,sans-serif;--b:'IBM Plex Sans',system-ui,sans-serif;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#101714;--sf:#17201c;--ink:#e6eee9;--mu:#9aa9a1;--ln:#2b3a33;--ac:#e58a4d;--ai:#1a0e05;--as:#3a2518;--bd:#0c2a21;--ok:#5fc084;--bad:#f08486;color-scheme:dark}}
+:root[data-theme=dark]{--bg:#101714;--sf:#17201c;--ink:#e6eee9;--mu:#9aa9a1;--ln:#2b3a33;--ac:#e58a4d;--ai:#1a0e05;--as:#3a2518;--bd:#0c2a21;--ok:#5fc084;--bad:#f08486;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--b);padding:0 max(16px,env(safe-area-inset-left,0px))}
+.w{max-width:1080px;margin:0 auto}h1,h2,h3{font-family:var(--d);line-height:1.15;margin:0}p{margin:0}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--ln);margin:0 -16px;padding:10px 16px}
+header .w{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.logo{font:700 1.3rem var(--d);display:flex;gap:8px;align-items:center}.logo i{width:24px;height:24px;background:var(--bd);border-radius:3px;border:2px solid var(--ac)}
+.tabs{display:flex;gap:2px;flex-wrap:wrap;flex:1}
+button{font:inherit;color:inherit;cursor:pointer}
+.tab{border:0;background:none;padding:6px 10px;border-radius:6px;color:var(--mu);font-weight:500;font-size:.9rem}.tab[aria-current=true]{color:var(--ink);box-shadow:inset 0 -2px var(--ac)}
+.chip{border:1px solid var(--ln);background:var(--sf);border-radius:8px;padding:6px 10px;font-size:.85rem}
+:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+.hero{background:var(--bd);color:#e8f3ee;border-radius:12px;padding:28px;margin:20px 0}.hero h1{font-size:clamp(1.8rem,5vw,2.8rem)}.hero p{margin-top:10px;max-width:60ch;opacity:.9}
+.bar{height:8px;background:var(--ln);border-radius:9px;overflow:hidden;margin-top:14px}.bar b{display:block;height:100%;background:var(--ac)}
+.grid{display:grid;grid-template-columns:260px 1fr;gap:20px;align-items:start}@media(max-width:760px){.grid{grid-template-columns:1fr}}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:18px}
+.mod{display:block;width:100%;text-align:left;border:1px solid var(--ln);background:var(--sf);border-radius:8px;padding:10px 12px;margin-bottom:8px}.mod[aria-current=true]{border-color:var(--ac);background:var(--as)}.mod:disabled{opacity:.55;cursor:not-allowed}
+.mod small{display:block;color:var(--mu)}
+.eb{font:500 .75rem monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--mu)}
+.steps{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0}.st{border:1px solid var(--ln);background:var(--sf);border-radius:20px;padding:4px 12px;font-size:.85rem}.st[aria-current=true]{background:var(--ac);color:var(--ai);border-color:var(--ac)}.st.dn{border-color:var(--ok);color:var(--ok)}.st:disabled{opacity:.45;cursor:not-allowed}
+.btn{background:var(--ac);color:var(--ai);border:0;border-radius:8px;padding:9px 16px;font-weight:600;margin-top:14px}.btn.g{background:none;color:var(--ink);border:1px solid var(--ln)}
+.opt{display:block;border:1px solid var(--ln);border-radius:8px;padding:9px 12px;margin-top:8px;cursor:pointer}.opt:has(input:checked){border-color:var(--ac);background:var(--as)}
+.fb{margin-top:10px;font-weight:600}.fb.ok{color:var(--ok)}.fb.no{color:var(--bad)}
+.tg{display:inline-block;border:1px solid var(--ln);border-radius:5px;padding:1px 8px;font-size:.78rem;color:var(--mu);margin:0 6px 6px 0}
+.tracks{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.tr{text-align:left;border:1px solid var(--ln);background:var(--sf);border-radius:10px;padding:16px}.tr:hover{border-color:var(--ac)}
+ol.r li{margin-bottom:10px}footer{color:var(--mu);font-size:.85rem;padding:24px 0}
+
+.vis{margin:14px 0 0;padding:12px;border:1px solid var(--ln);border-radius:10px;background:var(--bg)}.vis figcaption{font-size:.85rem;color:var(--mu);margin-top:6px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.chip.on{border-color:var(--ac);background:var(--as)}
+.tdone{border-color:var(--ok)}.tlog li{margin-bottom:8px}
+@keyframes spin{to{transform:rotate(360deg)}}.fan{animation:spin 1s linear infinite}@media(prefers-reduced-motion:reduce){.fan{animation:none}}
+.pl{border:1px solid var(--ln);border-radius:12px;overflow:hidden;background:var(--sf);margin-top:14px}.pl .scn{padding:14px 18px;min-height:112px}.pl .scn b{font-family:var(--d);font-size:1.15rem}
+.pl .cl{display:flex;gap:8px;align-items:center;padding:8px 12px;border-top:1px solid var(--ln);flex-wrap:wrap}.pl .cl .chip{padding:5px 10px}
+.pg{height:5px;background:var(--ln)}.pg i{display:block;height:100%;background:var(--ac)}.pg i.go{animation:pgr 6s linear forwards}@keyframes pgr{from{width:0}to{width:100%}}
+.dots{display:flex;gap:6px;margin-left:auto}.dots button{width:12px;height:12px;border-radius:50%;border:1px solid var(--ink);background:none;padding:0}.dots button.on{background:var(--ac);border-color:var(--ac)}
+.pl svg{animation:fadeIn .5s}@keyframes fadeIn{from{opacity:.3}to{opacity:1}}@media(prefers-reduced-motion:reduce){.pl svg,.pg i.go{animation:none}}
+</style></head><body>
+<header><div class="w"><div class="logo"><i></i>EduFix TLE</div><nav class="tabs" id="tabs" aria-label="Tracks"></nav><button class="chip" id="th">Theme</button></div></header>
+<main class="w" id="v"></main>
+<footer class="w">Troubleshooting content is organized around DepEd TLE–ICT Computer Systems Servicing themes, arranged as one path for all learners. Check the latest DepEd curriculum guides with your teacher before official use.</footer>
+<script>
+const STG=[["Elicit","Activate what you already know"],["Engage","Hook: a real problem"],["Explore","Hands-on investigation"],["Explain","Concepts and vocabulary"],["Elaborate","Apply it to a new task"],["Evaluate","Check your understanding"],["Extend","Take it beyond class"]];
+const LV=[["Level 1","Troubleshooting foundations",[
+{t:"The troubleshooting method and safety",c:"Follow a safe, step-by-step method to find faults",
+s:["Think of the last time a device failed on you. What did you try first, and did you try things in a sensible order?","A lab PC won’t turn on. One student swaps three parts at once and it still fails. Why is changing many things at once a poor idea?","Practice on a case card: write the symptom, make one guess, test only that guess, and note the result before trying anything else.","Method: identify the problem, form a theory, test it, plan the fix, verify full function, document. Change one thing at a time. Unplug power, wear a wrist strap against ESD, and never open a PSU.","Turn the six steps into a one-page flowchart you could pin at a workbench, with a safety check before step one.","Walk a family member through the method on a real household fault, such as a slow laptop, and record what you found."],
+q:["Why change only one thing at a time?",["It looks neater","You can tell which change fixed or caused the fault","It saves electricity","Parts last longer"],1]},
+{t:"Gathering symptoms",c:"Collect accurate information before touching the device",
+s:["A user says “my computer is broken.” List five questions that would make that statement useful.","Two PCs both “won’t start.” One is silent and dark, the other beeps three times. Are they the same problem?","Interview a classmate playing the user: when did it start, what changed, any error text, any noises, does it happen every time? Record the answers.","Useful clues are error messages, LED and fan behavior, beep codes, recent changes, and whether the fault repeats. During POST, beep patterns report hardware faults, and their meaning depends on the BIOS maker.","Create a symptom intake form with fields for user, device, symptom, recent changes, error text, and what was already tried.","Note the exact wording of an error on a real fault at home, then search it on the maker’s support site."],
+q:["What should you do before touching a faulty PC?",["Replace the RAM","Ask what changed and gather symptoms","Reinstall the OS","Open the PSU"],1]}]],
+["Level 2","Hardware faults",[
+{t:"Power and no-boot faults",c:"Diagnose power failures and PCs that will not start",
+s:["A PC shows no lights at all. Sketch how power travels from the wall to the motherboard.","Before opening the case, what is the cheapest, fastest thing to check on a PC with no lights?","Trace the chain: outlet, power cord, PSU switch, 24-pin and CPU cables, case power button header. Test each link, easiest first.","Check the outlet, cord, PSU switch and loose connectors first. With a PSU tester or multimeter, +12 V (yellow), +5 V (red) and +3.3 V (orange) should be within about 5 percent. A dead CMOS battery can reset the clock and settings.","Write a decision tree for “no power,” “powers on but no display,” and “shuts off by itself,” with a test at each branch.","Write a short guide for your lab listing five power checks to do before calling a technician."],
+q:["What should you check first on a PC with no lights?",["Replace the motherboard","Outlet, power cord and PSU switch","Reinstall Windows","Update drivers"],1]},
+{t:"Memory, storage and display faults",c:"Diagnose RAM, drive and display problems",
+s:["One PC beeps, another freezes randomly, and another shows a black screen. Which parts might each point to?","A drive makes repeated clicking sounds and files go missing. Should you keep using it while you investigate? Why not?","Reseat RAM one stick at a time, run a memory test, check drive health with SMART, and swap the monitor cable or screen to isolate the display.","Isolate by swapping in known-good parts. Repeated beeps or random crashes often mean RAM. Clicking, slow reads and SMART warnings mean a failing drive, so back up first. No picture while the PC runs points to the cable, monitor or GPU.","Make a symptom-to-cause table for six faults, with the first test and the safest fix for each.","Teach a friend how to back up important files before any repair, and explain why it comes first."],
+q:["What should you do first when a drive is clicking and failing?",["Defragment it","Back up the data","Keep using it","Format it"],1]},
+{t:"Overheating and peripheral faults",c:"Diagnose heat and input/output device problems",
+s:["Why does a laptop get loud and slow after a few hours? Share your guesses.","A PC shuts down only during heavy games. What clue does that timing give you?","Check that fans spin and look for dust, watch temperatures with a utility, then test a keyboard, mouse or printer on another port and another PC.","Heat causes throttling and sudden shutdowns. Clean dust, confirm fans spin, and renew thermal paste if needed. For peripherals, check the cable, port, driver and power, and test on another machine to see which side is faulty.","Design a cleaning and cooling checklist for a lab, with how often each task is done and who signs it off.","Clean a family laptop’s vents safely (powered off, using a soft brush or blower) and compare temperatures before and after."],
+q:["A PC shuts down only under heavy load. What is the likely cause?",["Overheating","A bad mouse","Wrong wallpaper","Low volume"],0]}]],
+["Level 3","Software and network faults",[
+{t:"Operating system and software faults",c:"Diagnose startup errors, slowness and malware",
+s:["Describe a time a computer was slow or showed an error message. What did you do?","A PC shows a blue error screen after a new driver was installed. What would you try before wiping the disk?","On a VM, boot to Safe Mode, roll back a driver, use System Restore, check Task Manager for heavy processes, and run an antivirus scan.","Separate hardware from software: if the BIOS and POST work but Windows fails, suspect software. Safe Mode loads minimal drivers, and rollback or restore undoes bad changes. Reinstalling the OS is a last resort, after a backup.","Write an escalation ladder for “PC is slow,” from the quickest safe checks to the most drastic fix.","Show a relative how to check startup programs and free disk space to speed up a sluggish PC."],
+q:["Which option is the last resort for a software fault?",["Safe Mode","Driver rollback","Reinstalling the OS","Restart"],2]},
+{t:"Network connectivity faults",c:"Diagnose and fix connection problems",
+s:["Your phone says “connected, no internet.” What could be wrong, and where?","One PC in the lab can’t browse while the rest can. What does that tell you about where the fault is?","Run ipconfig, ping the gateway, ping 8.8.8.8, then ping a website name, and check the cable, link lights and Wi-Fi signal.","Work outward in layers: cable and link lights, IP address, gateway, then DNS. An address starting with 169.254 means DHCP failed. If pinging an IP works but a name fails, suspect DNS. One PC failing means a local fault.","Build a flowchart from “no internet” to the fix, using each ping result as a decision point.","Map the Wi-Fi dead spots in your home or school with a phone and suggest one fix."],
+q:["Ping to an IP works but a website name fails. What is likely?",["Bad cable","DNS problem","Dead PSU","Broken screen"],1]}]],
+["Level 4","Professional practice",[
+{t:"Preventive maintenance and documentation",c:"Prevent faults and keep useful service records",
+s:["What habits keep a bicycle or motorbike from breaking down? Which have a computer equivalent?","The same lab PC fails three times in a month and nobody remembers what was done. What was missing?","Fill in a service log for a practice repair, and set a maintenance calendar for dust cleaning, updates, backups and cable checks.","Preventive maintenance reduces faults: clean, update, back up and inspect. A good service record has the date, symptom, cause, fix, parts used and technician, so patterns show up.","Design a maintenance and log system for a 20-PC lab that a new technician could follow without help.","Review a log of past faults, if you have one, and name the most repeated cause and how to prevent it."],
+q:["Why keep a service log?",["To look busy","To spot repeated faults and share what was done","To avoid backups","To skip testing"],1]},
+{t:"Mock practical: full cases",c:"Solve complete faults from symptom to documentation",
+s:["Which kinds of fault do you feel least ready for? Rate your confidence on power, display, storage, software and network.","You get three tickets at once: a dead PC, a slow PC, and a printer that won’t print. How do you decide the order?","Solve three case cards against the clock: set priorities, follow the six steps, and record every test and result.","Prioritize by safety, impact and ease: hazards first, then faults that block many users, then quick wins. Always verify full function and document before closing a ticket.","Write your own case card with a hidden fault and a marking guide, then swap with a partner to solve.","Compile your best three service reports into a portfolio that shows your troubleshooting skills."],
+q:["Which should be handled first?",["Safety hazards","Cosmetic issues","The easiest fault","Whatever came last"],0]}]]];
+const RAD=[["1 · Requirements planning","Learners and teachers agreed on one need: a single self-paced troubleshooting path anyone can join, built on the 7E cycle."],["2 · User design","Prototype the module screen with real learners: stage pills, a locked next step, and a check question before moving on. Repeat after each trial."],["3 · Construction","Each module is a data record (title, competency, six stage texts, one quiz). Add or reorder modules without changing the code, then test and adjust."],["4 · Cutover","Release level by level, collect feedback, and add new fault cases as learners meet them."]];
+const ALL=LV.flatMap(l=>l[2]),K="edufixrad2";
+const ld=()=>{try{return JSON.parse(localStorage.getItem(K))||{}}catch(e){return{}}};let P=ld();const sv=()=>{try{localStorage.setItem(K,JSON.stringify(P))}catch(e){}};
+let page="home",mi=0,st=0,pick=-1,fb=null;
+const $=s=>document.querySelector(s),dn=i=>P["m"+i]||0,tot=ALL.length*7,got=()=>ALL.reduce((a,_,i)=>a+dn(i),0),pc=()=>Math.round(got()/tot*100);
+const lock=i=>!P.open&&i>0&&dn(i-1)<7,nxt=()=>{const i=ALL.findIndex((_,j)=>dn(j)<7);return i<0?0:i};
+const openBox=()=>`<label class="opt" style="margin-top:14px"><input type="checkbox" id="op" ${P.open?"checked":""}> I already know some of this: unlock all modules so I can jump ahead</label>`;
+function tabs(){$("#tabs").innerHTML=[["home","Home"],["learn","Learning path"],["vid","Videos"],["sim","Troubleshooter"],["rad","RAD model"]].map(([k,l])=>`<button class="tab" data-p="${k}" ${page===k?'aria-current="true"':''}>${l}</button>`).join("")}
+function home(){let g=0;return`<section class="hero"><div class="eb" style="color:#9fd0bd">Open to everyone</div><h1>Find the fault. Fix it safely.</h1><p>Learn computer troubleshooting on one path open to everyone, with no grade or age requirement. Every module follows the 7E cycle. Finish a stage to unlock the next, pass the check question, then move on.</p><div class="bar"><b style="width:${pc()}%"></b></div><p style="font-size:.85rem">${pc()}% complete · ${got()} of ${tot} stages</p><button class="btn" data-c="1">${got()?"Continue where you left off":"Start learning"}</button><button class="btn g" data-p="sim" style="margin-left:8px;color:#e8f3ee;border-color:#e8f3ee">Try the troubleshooting machine</button><button class="btn g" data-p="vid" style="margin-left:8px;color:#e8f3ee;border-color:#e8f3ee">Watch video lessons</button></section>
+<div class="tracks">${LV.map(l=>`<div class="tr"><div class="eb">${l[0]}</div><h3 style="margin:6px 0">${l[1]}</h3>${l[2].map(m=>{const i=g++;return`<button class="mod" data-m="${i}" ${lock(i)?"disabled":""}><b>${lock(i)?"🔒 ":dn(i)===7?"✓ ":""}${m.t}</b><small>${dn(i)}/7 stages</small></button>`}).join("")}</div>`).join("")}</div>${openBox()}
+<h2 style="margin:28px 0 12px">The 7E path</h2><div class="card">${STG.map((s,i)=>`<span class="tg"><b>${i+1}</b> ${s[0]}</span>`).join("")}<p style="margin-top:8px;color:var(--mu)">From prior knowledge to real-world action, each stage has one clear job.</p></div>`}
+function learn(){const m=ALL[mi],d=dn(mi);let g=0;
+return`<div class="grid" style="margin-top:20px"><div>${LV.map(l=>`<div class="eb" style="margin:4px 0 6px">${l[0]} · ${l[1]}</div>`+l[2].map(x=>{const i=g++;return`<button class="mod" data-m="${i}" ${lock(i)?"disabled":""} ${i===mi?'aria-current="true"':''}><b>${lock(i)?"🔒 ":dn(i)===7?"✓ ":""}${x.t}</b><small>${dn(i)}/7 stages</small></button>`}).join("")).join("")}${openBox()}</div>
+<div class="card"><div class="eb">Module ${mi+1} of ${ALL.length} · Competency</div><h3>${m.c}</h3><div class="steps">${STG.map((s,i)=>`<button class="st ${i<d?"dn":""}" data-s="${i}" ${i>d?"disabled":""} ${i===st?'aria-current="true"':''}>${i+1} ${s[0]}</button>`).join("")}</div>${stage(m,d)}</div></div>`}
+function stage(m,d){const i=st,h=`<div class="eb">${STG[i][1]}</div>`;
+if(i===5){const[q,o]=m.q;return h+`<h3 style="margin:8px 0">${q}</h3>`+o.map((x,j)=>`<label class="opt"><input type="radio" name="q" value="${j}" ${pick===j?"checked":""}> ${x}</label>`).join("")+`<button class="btn" id="chk">Check answer</button>`+(fb?`<p class="fb ${fb[0]}">${fb[1]}</p>`:"")}
+return h+`<p style="margin-top:8px;font-size:1.05rem">${m.s[i>5?5:i]}</p>`+((i===1||i===3)?figure(mi):"")+(i===3?`<button class="btn g" data-v="open" data-a="${mi}" style="margin-right:8px">▶ Watch the video lesson</button>`:"")+(i===2?`<button class="btn g" data-p="sim" style="margin-right:8px">Open the troubleshooter</button>`:"")+`<button class="btn" id="nx">${i===6?(d>=7?"Module complete ✓":"Finish module"):"Done, continue"}</button>`+(i===6&&d>=7&&mi<ALL.length-1?`<button class="btn g" style="margin-left:8px" data-m="${mi+1}">Next module</button>`:"")}
+function rad(){return`<section class="hero"><div class="eb" style="color:#9fd0bd">Development approach</div><h1>Built with the RAD model</h1><p>Rapid Application Development favors quick prototypes and constant user feedback over long up-front specifications.</p></section><ol class="r" style="padding-left:18px">${RAD.map(r=>`<li><div class="card"><h3>${r[0]}</h3><p style="margin-top:6px">${r[1]}</p></div></li>`).join("")}</ol><button class="btn g" id="rs">Reset my progress</button>`}
+function draw(){clearInterval(VT);VT=null;tabs();$("#v").innerHTML=page==="home"?home():page==="rad"?rad():page==="sim"?sim():page==="vid"?vids():learn();if(page==="vid"&&VP)vtimer()}
+const go=i=>{page="learn";mi=i;st=Math.min(dn(i),6);pick=-1;fb=null;scrollTo(0,0)};
+document.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
+if(b.id==="th"){const r=document.documentElement,d=r.dataset.theme==="dark"||(!r.dataset.theme&&matchMedia("(prefers-color-scheme:dark)").matches);r.dataset.theme=d?"light":"dark";return}
+if(b.dataset.v){vctl(b.dataset.v,b.dataset.a);return}
+if(b.dataset.p){if(b.dataset.p==="learn")go(nxt());else{page=b.dataset.p;scrollTo(0,0)}}
+else if(b.dataset.c)go(nxt());
+else if(b.dataset.sc!==undefined){S=ns(+b.dataset.sc)}
+else if(b.dataset.t){if(!S.run[b.dataset.t]){S.run[b.dataset.t]=1;S.order.push(b.dataset.t)}}
+else if(b.dataset.g!==undefined){const g=+b.dataset.g;if(g===SC[S.s].a){S.solved=true;S.fb=""}else{S.wrong++;S.fb="Not that one. Re-read your findings log and look for the clue you have not explained yet."}}
+else if(b.id==="snx"){S=ns((S.s+1)%SC.length)}
+else if(b.id==="sre"){S=ns(S.s)}
+else if(b.dataset.m!==undefined)go(+b.dataset.m);
+else if(b.dataset.s!==undefined){st=+b.dataset.s;pick=-1;fb=null}
+else if(b.id==="nx"){if(dn(mi)===st){P["m"+mi]=st+1;sv()}if(st<6)st++;pick=-1;fb=null}
+else if(b.id==="chk"){if(pick<0)fb=["no","Pick an answer first."];else if(pick===ALL[mi].q[2]){fb=["ok","Correct! Extend unlocked."];if(dn(mi)===5){P["m"+mi]=6;sv()}}else fb=["no","Not yet. Review the Explain stage and try again."]}
+else if(b.id==="rs"){if(confirm("Clear all saved progress?")){P={};sv()}}
+draw()});
+document.addEventListener("change",e=>{if(e.target.name==="q")pick=+e.target.value;if(e.target.id==="op"){P.open=e.target.checked;sv();draw()}});
+/* ---------- Visuals ---------- */
+const SV=(h,t,b)=>`<svg viewBox="0 0 640 ${h}" role="img" aria-label="${t}" style="width:100%;height:auto;display:block;font-family:var(--b)"><defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--ac)"/></marker></defs>${b}</svg>`;
+const bx=(x,y,w,h,t,f)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="8" fill="${f||"var(--sf)"}" stroke="var(--ink)" stroke-width="1.5"/><text x="${x+w/2}" y="${y+h/2+4}" text-anchor="middle" font-size="13" fill="var(--ink)">${t}</text>`;
+const ar=(a,b,c,d)=>`<line x1="${a}" y1="${b}" x2="${c}" y2="${d}" stroke="var(--ac)" stroke-width="2" marker-end="url(#ar)"/>`;
+const tx=(x,y,t,o="")=>`<text x="${x}" y="${y}" font-size="12" fill="var(--mu)" ${o}>${t}</text>`;
+const mid='text-anchor="middle"';
+const ART=[
+()=>SV(205,"The six-step troubleshooting cycle, with a safety check first",
+ `<text x="20" y="24" font-size="13" font-weight="600" fill="var(--bad)">Safety first: unplug power, wear a wrist strap, never open a PSU</text>`+
+ bx(20,48,170,46,"1 Identify the problem")+bx(235,48,170,46,"2 Form a theory")+bx(450,48,170,46,"3 Test the theory")+
+ bx(450,148,170,46,"4 Plan the fix")+bx(235,148,170,46,"5 Verify full function")+bx(20,148,170,46,"6 Document")+
+ ar(190,71,233,71)+ar(405,71,448,71)+ar(535,94,535,146)+ar(450,171,407,171)+ar(235,171,192,171)+
+ tx(240,126,"Test failed? Back to step 2. One change at a time.")),
+()=>SV(205,"A faulty PC and the clues to collect from the user",
+ `<rect x="30" y="25" width="100" height="160" rx="8" fill="var(--sf)" stroke="var(--ink)" stroke-width="2"/><circle cx="80" cy="55" r="7" fill="var(--bad)"/><circle cx="80" cy="80" r="7" fill="var(--ok)"/><rect x="50" y="110" width="60" height="8" fill="var(--ln)"/><rect x="50" y="130" width="60" height="8" fill="var(--ln)"/>`+
+ `<path d="M150 80 a20 20 0 0 1 0 30 M165 68 a38 38 0 0 1 0 54 M180 56 a56 56 0 0 1 0 78" fill="none" stroke="var(--ac)" stroke-width="2.5" stroke-linecap="round"/>`+tx(150,160,"Beep codes")+
+ tx(260,22,"Symptoms to collect")+bx(260,32,170,40,"Error message text")+bx(450,32,170,40,"LED and fan behavior")+bx(260,86,170,40,"Beep pattern")+bx(450,86,170,40,"Recent changes")+bx(260,140,170,40,"Does it repeat?")+bx(450,140,170,40,"What was already tried")),
+()=>SV(200,"The power path from wall outlet to motherboard, with test voltages",
+ ["Outlet","Cord","PSU switch","24-pin / CPU","Mainboard","Case button"].map((l,i)=>bx(8+i*104,30,92,46,l)).join("")+
+ [0,1,2,3,4].map(i=>ar(100+i*104,53,110+i*104,53)).join("")+
+ tx(8,102,"Test the easiest link first, then follow the chain.")+
+ [["+12 V yellow","#e5b800"],["+5 V red","#d03a3a"],["+3.3 V orange","#e8770b"]].map((r,i)=>`<circle cx="${40+i*210}" cy="150" r="16" fill="${r[1]}" stroke="var(--ink)"/><text x="${64+i*210}" y="155" font-size="13" fill="var(--ink)">${r[0]} ±5%</text>`).join("")),
+()=>SV(205,"Three common faults: RAM, hard drive and display",
+ `<rect x="30" y="50" width="150" height="34" rx="3" fill="var(--bd)"/>`+[0,1,2,3].map(i=>`<rect x="${42+i*34}" y="57" width="24" height="18" rx="2" fill="var(--ln)"/>`).join("")+`<path d="M30 90h150" stroke="#c9a227" stroke-width="5" stroke-dasharray="4 3"/>`+
+ tx(105,125,"RAM",mid+' font-weight="600"')+tx(105,142,"beeps, random crashes",mid)+tx(105,158,"reseat, then memory test",mid)+
+ `<circle cx="320" cy="75" r="48" fill="var(--sf)" stroke="var(--ink)" stroke-width="2"/><circle cx="320" cy="75" r="12" fill="var(--ln)"/><path d="M365 40 L322 74" stroke="var(--ac)" stroke-width="4" stroke-linecap="round"/>`+
+ tx(320,142,"Hard drive",mid+' font-weight="600"')+tx(320,158,"clicking, SMART warnings",mid)+tx(320,174,"back up first",mid)+
+ `<rect x="460" y="30" width="150" height="92" rx="6" fill="var(--bd)" stroke="var(--ink)" stroke-width="2"/><rect x="520" y="122" width="30" height="14" fill="var(--ink)"/><rect x="500" y="136" width="70" height="6" fill="var(--ink)"/>`+
+ tx(535,160,"Display",mid+' font-weight="600"')+tx(535,176,"swap cable or screen",mid)),
+()=>SV(200,"How dust leads to heat, throttling and shutdowns",
+ `<g fill="none" stroke="var(--ac)" stroke-width="2.5" stroke-linecap="round"><path d="M90 52 q-8 -10 0 -20 q8 -10 0 -20"/><path d="M135 52 q-8 -10 0 -20 q8 -10 0 -20"/><path d="M180 52 q-8 -10 0 -20 q8 -10 0 -20"/></g>`+
+ `<rect x="40" y="60" width="190" height="100" rx="6" fill="var(--sf)" stroke="var(--ink)" stroke-width="2"/><rect x="20" y="160" width="230" height="12" rx="4" fill="var(--ink)"/><circle cx="135" cy="110" r="32" fill="none" stroke="var(--ln)" stroke-width="3"/>`+
+ `<g class="fan" style="transform-origin:135px 110px"><path d="M135 110 L135 82 M135 110 L159 124 M135 110 L111 124" stroke="var(--ac)" stroke-width="7" stroke-linecap="round"/></g>`+
+ ["Dust","Heat","Throttling","Shutdown"].map((l,i)=>bx(275+i*90,50,80,44,l)).join("")+[0,1,2].map(i=>ar(355+i*90,72,364+i*90,72)).join("")+
+ tx(275,130,"Fix: power off, clean dust, check fans, renew paste")+tx(275,150,"Check: watch temperatures under heavy load")),
+()=>SV(205,"A ladder of software fixes from least to most drastic",
+ tx(30,20,"Less drastic to more drastic")+
+ ["Restart","Safe Mode / rollback","Restore point","Reinstall OS"].map((l,i)=>{const y=140-i*35;return `<rect x="${30+i*150}" y="${y}" width="140" height="${195-y}" rx="6" fill="${i===3?"var(--as)":"var(--sf)"}" stroke="${i===3?"var(--bad)":"var(--ink)"}" stroke-width="1.5"/><text x="${100+i*150}" y="${y+24}" text-anchor="middle" font-size="12" fill="var(--ink)">${l}</text>`}).join("")+
+ tx(480,38,"Last resort. Back up first.",'fill="var(--bad)" font-weight="600" text-anchor="middle"').replace('fill="var(--mu)"','')),
+()=>SV(190,"Troubleshooting a network in layers",
+ ["1 Cable and lights","2 IP address","3 Gateway ping","4 DNS (names)"].map((l,i)=>bx(8+i*157,40,145,52,l)).join("")+[0,1,2].map(i=>ar(153+i*157,66,165+i*157,66)).join("")+
+ ["Light off? Reseat cable","169.254 = DHCP failed","No reply = local fault","IP ok, name no: DNS"].map((l,i)=>tx(8+i*157,116,l)).join("")+
+ tx(8,160,"Work outward from the PC: cable, address, router, then name lookup.")),
+()=>{const H=["Date","Symptom","Cause","Fix","Parts","Tech"],R=[["12 Oct","No power","Loose cord","Reseated","None","Ana"],["19 Oct","Slow","Dusty fan","Cleaned","Brush","Ben"],["26 Oct","Beeps","RAM loose","Reseated","None","Ana"]];
+ const cell=(x,y,t,hd)=>`<rect x="${10+x*76}" y="${y}" width="76" height="34" fill="${hd?"var(--bd)":"var(--sf)"}" stroke="var(--ln)"/><text x="${48+x*76}" y="${y+21}" text-anchor="middle" font-size="11" fill="${hd?"#fff":"var(--ink)"}">${t}</text>`;
+ return SV(200,"A service log table and a monthly maintenance routine",
+ H.map((h,i)=>cell(i,28,h,1)).join("")+R.map((r,j)=>r.map((c,i)=>cell(i,62+j*34,c)).join("")).join("")+tx(10,18,"Service log")+
+ tx(500,18,"Monthly routine")+["Clean dust","Update software","Back up data","Check cables"].map((l,i)=>bx(500,28+i*42,125,34,l)).join("")+tx(10,185,"Date, symptom, cause, fix, parts, technician: patterns show up."))},
+()=>SV(180,"Priority order for several tickets at once",
+ `<rect x="40" y="20" width="560" height="42" rx="8" fill="var(--bad)"/><text x="320" y="46" text-anchor="middle" font-size="14" fill="#fff">1 Safety hazards first</text>`+
+ `<rect x="100" y="70" width="440" height="42" rx="8" fill="var(--ac)"/><text x="320" y="96" text-anchor="middle" font-size="14" fill="var(--ai)">2 Faults that block many users</text>`+
+ `<rect x="160" y="120" width="320" height="42" rx="8" fill="var(--bd)"/><text x="320" y="146" text-anchor="middle" font-size="14" fill="#fff">3 Quick wins, then the rest</text>`)
+];
+const CAP=["Follow the cycle in order and loop back to step 2 when a test fails.","Gather these clues before you touch anything.","Check the chain from the wall inward, easiest link first.","Each part has its own tell-tale symptoms.","Heat builds in a chain; breaking it at the dust stage is cheapest.","Escalate only when the gentler fix fails.","Each layer rules out a whole group of causes.","A log turns one-off repairs into patterns.","Triage by safety, impact, then ease."];
+function figure(i){return`<figure class="vis">${ART[i]()}<figcaption>${CAP[i]}</figcaption></figure>`}
+
+/* ---------- Troubleshooting machine ---------- */
+const TL=[["ask","Ask the user what changed"],["cord","Check outlet, cord and PSU switch"],["beep","Listen for beeps, check LEDs"],["ram","Reseat the RAM"],["smart","Check drive health (SMART)"],["disp","Swap the monitor cable"],["temp","Check temperatures and fans"],["safe","Boot to Safe Mode"],["link","Check cable and link lights"],["ipc","Run ipconfig"],["pgw","Ping the gateway"],["pip","Ping 8.8.8.8"],["pname","Ping a website name"]];
+const CZ=["Loose power cord or outlet","RAM not seated or faulty","Failing hard drive","Overheating (dust, fan)","Bad driver or software fault","DNS problem","Network cable or DHCP fault","Dead motherboard"];
+const SC=[
+{n:"Dead silent PC",sym:"The lab PC has no lights, no fan and no sound.",a:0,scr:["#0a0f0d",[]],def:"No change. The PC is still completely dead.",r:{ask:"The cleaner moved the PC yesterday.",cord:"The power cord is half out of the PSU socket. The outlet is live.",beep:"Nothing: no LEDs, no fan, no beeps."},fix:"Push the cord fully into the PSU, confirm the switch is on, then power on."},
+{n:"Black screen and beeps",sym:"The PC powers on but the screen stays black and it beeps repeatedly.",a:1,scr:["#0a0f0d",["No signal"]],def:"Nothing unusual here.",r:{ask:"Someone added memory yesterday.",beep:"Repeating short beeps: a typical memory error pattern.",ram:"One stick was not clicked in. After reseating, the PC posts.",disp:"The monitor works on another PC. The cable is fine.",cord:"Power is fine: fans and LEDs are on."},fix:"Reseat the RAM stick until it clicks, then run a memory test."},
+{n:"Clicking drive",sym:"Slow PC, a clicking noise from the case, and some files have gone missing.",a:2,scr:["#2a6f5a",["Desktop","File not found"]],def:"Nothing unusual here.",r:{ask:"Files seem to vanish at random.",beep:"Repeated clicking from the drive bay.",smart:"SMART warning: reallocated sectors rising. The drive is failing.",ram:"Memory test passes."},fix:"Back up the data first, then replace the drive and restore."},
+{n:"Shuts off in games",sym:"The PC runs fine, then shuts off after about 10 minutes of gaming.",a:3,scr:["#2a6f5a",["Game running"]],def:"Nothing unusual here.",r:{ask:"Only during games. The fan has been loud lately.",temp:"CPU 96 °C and rising. Fan and heatsink are clogged with dust.",smart:"Drive health is good.",ram:"Memory test passes."},fix:"Power off, clean the dust, check the fan and renew the thermal paste."},
+{n:"Blue screen",sym:"Windows shows a blue error screen at startup since yesterday.",a:4,scr:["#1c5fd1",[":(","Your PC ran into a problem"]],def:"Nothing unusual here.",r:{ask:"A new graphics driver was installed yesterday.",safe:"Safe Mode boots fine. The hardware works; the fault is software.",ram:"Memory test passes.",smart:"Drive health is good.",beep:"One normal beep. POST passes."},fix:"Boot to Safe Mode and roll back the new driver."},
+{n:"Connected, no internet",sym:"Wi-Fi says connected, but no website will open.",a:5,scr:["#2a6f5a",["Connected","Websites will not load"]],def:"Nothing unusual here.",r:{ask:"Nothing changed. Sites fail by name on every device.",ipc:"Valid IP address and gateway.",pgw:"Reply from the gateway: OK.",pip:"Reply from 8.8.8.8: OK.",pname:"Ping could not find host. Name lookup failed.",link:"Wi-Fi signal is strong."},fix:"Correct or change the DNS server setting."},
+{n:"One PC offline",sym:"This lab PC has no network while the others work fine.",a:6,scr:["#2a6f5a",["No network"]],def:"Nothing unusual here.",r:{ask:"Nothing changed, but the PC was pushed against the wall.",link:"Link light is off. The cable is half out of the wall jack.",ipc:"IP 169.254.12.7: self-assigned, so DHCP was never reached.",pgw:"Request timed out.",pip:"Request timed out.",pname:"Request timed out."},fix:"Reseat or replace the cable, then renew the IP address."}
+];
+const ns=s=>({s,run:{},order:[],wrong:0,solved:false,fb:""});let S=ns(0);
+function pcSVG(sc,ok){const on=ok||sc.a!==0,f=ok?["var(--ok)",["Fixed","System running normally"]]:sc.scr;
+const lines=f[1].map((l,i)=>`<text x="320" y="${108+i*24-(f[1].length-1)*12}" text-anchor="middle" font-size="15" fill="#fff">${l}</text>`).join("");
+const shown=S.run.temp||ok,deg=ok?52:(sc.a===3?96:45),h=Math.min(110,Math.max(4,(deg-20)*1.2));
+return`<svg viewBox="0 0 640 215" role="img" aria-label="Virtual PC showing the current symptom" style="width:100%;height:auto;display:block;font-family:var(--b)">
+<rect x="30" y="30" width="100" height="160" rx="8" fill="var(--sf)" stroke="var(--ink)" stroke-width="2"/><circle cx="80" cy="55" r="7" fill="${on?"var(--ok)":"#666"}"/><circle cx="80" cy="130" r="28" fill="none" stroke="var(--ln)" stroke-width="3"/>
+<g ${on?'class="fan"':''} style="transform-origin:80px 130px"><path d="M80 130 L80 106 M80 130 L101 142 M80 130 L59 142" stroke="var(--ac)" stroke-width="6" stroke-linecap="round"/></g>
+<rect x="170" y="20" width="300" height="170" rx="8" fill="var(--ink)"/><rect x="180" y="30" width="280" height="150" rx="4" fill="${f[0]}"/>${lines}
+<rect x="300" y="190" width="40" height="10" fill="var(--ink)"/>
+<text x="555" y="22" text-anchor="middle" font-size="12" fill="var(--mu)">CPU temp</text><rect x="540" y="30" width="30" height="120" rx="6" fill="var(--ln)"/>${shown?`<rect x="540" y="${150-h}" width="30" height="${h}" rx="6" fill="${deg>85?"var(--bad)":"var(--ok)"}"/>`:""}
+<text x="555" y="172" text-anchor="middle" font-size="14" fill="var(--ink)">${shown?deg+" °C":"? (not tested)"}</text></svg>`}
+function sim(){const sc=SC[S.s],ok=S.solved,n=S.order.length;
+const tests=TL.map(t=>`<button class="mod${S.run[t[0]]?" tdone":""}" data-t="${t[0]}" ${ok?"disabled":""}><b>${S.run[t[0]]?"✓ ":""}${t[1]}</b></button>`).join("");
+const log=n?`<ol class="tlog" style="padding-left:20px">${S.order.map(id=>`<li><b>${TL.find(t=>t[0]===id)[1]}</b><br>${sc.r[id]||sc.def}</li>`).join("")}</ol>`:`<p style="color:var(--mu)">No tests yet. Start with the cheapest, safest check.</p>`;
+const rate=n<=3?"Efficient: you followed the clues.":n<=6?"Good: a few extra checks.":"Thorough, but try to narrow down faster using the symptom.";
+const done=ok?`<div class="card" style="margin-top:14px;border-color:var(--ok)"><h3 style="color:var(--ok)">Correct: ${CZ[sc.a]}</h3><p style="margin-top:6px"><b>Fix:</b> ${sc.fix}</p><p style="margin-top:6px"><b>Score:</b> ${n} test${n===1?"":"s"}, ${S.wrong} wrong guess${S.wrong===1?"":"es"}. ${rate}</p><div class="eb" style="margin-top:12px">Service log (step 6: document)</div><p>Symptom: ${sc.sym}<br>Tests: ${S.order.map(id=>TL.find(t=>t[0]===id)[1]).join("; ")}<br>Cause: ${CZ[sc.a]}<br>Fix: ${sc.fix}<br>Verified: system works normally.</p><button class="btn" id="snx">Next fault</button><button class="btn g" id="sre" style="margin-left:8px">Replay this one</button></div>`
+:`<div class="eb" style="margin-top:14px">3 · Make your diagnosis</div>${CZ.map((c,i)=>`<button class="mod" data-g="${i}" ${n?"":"disabled"}>${c}</button>`).join("")}${n?"":`<p style="color:var(--mu)">Run at least one test first. Guessing is not troubleshooting.</p>`}${S.fb?`<p class="fb no">${S.fb}</p>`:""}`;
+return`<section class="hero"><div class="eb" style="color:#9fd0bd">Interactive</div><h1>Troubleshooting Machine</h1><p>Pick a faulty PC, run tests one at a time like a real technician, read the evidence, then diagnose. Fewer, smarter tests score better.</p></section>
+<div class="chips" role="group" aria-label="Choose a fault">${SC.map((x,i)=>`<button class="chip${i===S.s?" on":""}" data-sc="${i}">${i+1}. ${x.n}</button>`).join("")}</div>
+<div class="grid" style="margin-top:16px"><div><div class="eb" style="margin-bottom:6px">1 · Run a test</div>${tests}</div>
+<div class="card">${pcSVG(sc,ok)}<p style="margin-top:8px"><b>Ticket:</b> ${sc.sym}</p><div class="eb" style="margin-top:12px">2 · Findings log</div>${log}${done}</div></div>`}
+
+/* ---------- Video lessons ---------- */
+const VID=[
+[["Safety first","Unplug the power, wear an ESD wrist strap, and never open a power supply."],["Identify and theorize","Ask what happened, then form one theory about the cause."],["Test one change","Change only one thing at a time so you know what worked."],["Verify and document","Confirm everything works, then write down what you did."]],
+[["Ask the user","When did it start? What changed? Is there any error text?"],["Look and listen","Check LEDs, fan behavior and beep codes. Beep meaning depends on the BIOS maker."],["Check repeats","Does it fail every time or only sometimes? Patterns point to causes."],["Record the clues","Write symptoms in an intake form before touching any part."]],
+[["No lights at all","Think of the path: wall outlet, cord, PSU switch, then the motherboard."],["Easiest first","Check the outlet, power cord and PSU switch before opening the case."],["Measure the rails","A PSU tester or multimeter should read +12 V, +5 V and +3.3 V within about 5 percent."],["Then go deeper","Check the 24-pin and CPU cables and the case power button header."]],
+[["Beeps or freezes","Repeated beeps and random crashes often point to RAM. Reseat one stick at a time."],["Clicking drive","Clicking and SMART warnings mean a failing drive. Back up first."],["Black screen","If the PC runs but there is no picture, swap the cable or monitor."],["Swap known-good parts","Isolate the fault by swapping in parts that you know work."]],
+[["Heat is the enemy","Dust blocks airflow, so the CPU gets hot and slows down or shuts off."],["Look and watch","Check that fans spin and watch temperatures under load."],["Clean safely","Power off, then use a soft brush or blower. Renew thermal paste if needed."],["Test peripherals","Try the keyboard, mouse or printer on another port and another PC."]],
+[["Hardware or software?","If BIOS and POST work but Windows fails, suspect software."],["Safe Mode","Safe Mode loads minimal drivers so you can undo a bad change."],["Roll back or restore","Use driver rollback or System Restore, and scan for malware."],["Last resort","Reinstall the OS only after backing up your data."]],
+[["Work in layers","Start with the cable and link lights, then the IP address."],["Read the address","An address starting with 169.254 means DHCP failed."],["Use ping","Ping the gateway, then 8.8.8.8, then a website name."],["Find the layer","IP works but name fails means DNS. One PC failing means a local fault."]],
+[["Why keep logs","Without records, the same fault returns and nobody knows what was done."],["What to record","Date, symptom, cause, fix, parts used and technician."],["Prevent faults","Schedule dust cleaning, updates, backups and cable checks."],["Spot patterns","Review the log to find repeated causes and fix them for good."]],
+[["Triage tickets","With several faults, do not just take them in order."],["Safety first","Hazards come before everything else."],["Impact next","Then fix what blocks many users, then the quick wins."],["Close properly","Verify full function and document before closing each ticket."]]];
+const YT=["computer troubleshooting methodology CompTIA A+","PC will not turn on power supply test","how to gather symptoms computer repair beep codes","RAM reseat hard drive SMART check monitor no signal","clean dust laptop overheating thermal paste","Windows Safe Mode driver rollback","ping ipconfig DNS network troubleshooting","IT service log preventive maintenance","IT help desk ticket prioritization"];
+let VM=0,VS=0,VP=false,VT=null,NAR=false;
+function say(){try{if(NAR&&typeof speechSynthesis!=="undefined"){speechSynthesis.cancel();const s=VID[VM][VS];speechSynthesis.speak(new SpeechSynthesisUtterance(s[0]+". "+s[1]))}}catch(e){}}
+function player(){const sc=VID[VM][VS];return`<div class="pl" id="pl"><div style="padding:12px">${ART[VM]()}</div><div class="pg"><i class="${VP?"go":""}" ${VP?"":'style="width:'+((VS+1)/4*100)+'%"'}></i></div><div class="scn"><div class="eb">Scene ${VS+1} of 4</div><b>${sc[0]}</b><p style="margin-top:4px">${sc[1]}</p></div><div class="cl"><button class="chip" data-v="b" aria-label="Previous scene">⏮</button><button class="chip" data-v="p">${VP?"⏸ Pause":"▶ Play"}</button><button class="chip" data-v="n" aria-label="Next scene">⏭</button><button class="chip${NAR?" on":""}" data-v="nar" aria-pressed="${NAR}">🔊 Narration</button><div class="dots">${[0,1,2,3].map(i=>`<button data-v="s" data-a="${i}" class="${i===VS?"on":""}" aria-label="Scene ${i+1}"></button>`).join("")}</div></div></div>`}
+function upl(){const e=document.querySelector("#pl");if(e)e.outerHTML=player()}
+function vtimer(){clearInterval(VT);VT=setInterval(()=>{if(VS<3){VS++;say()}else{VP=false;clearInterval(VT);VT=null}upl()},6000)}
+function vctl(k,a){if(k==="open"){VM=+a;VS=0;VP=false;page="vid";draw();scrollTo(0,0);return}
+if(k==="m"){VM=+a;VS=0;VP=false;draw();return}
+if(k==="p"){VP=!VP;if(VP){if(VS===3&&!VT)VS=0;say();vtimer()}else{clearInterval(VT);VT=null;try{speechSynthesis.cancel()}catch(e){}}}
+else if(k==="n"){VS=Math.min(3,VS+1);say();if(VP)vtimer()}else if(k==="b"){VS=Math.max(0,VS-1);say();if(VP)vtimer()}
+else if(k==="s"){VS=+a;say();if(VP)vtimer()}else if(k==="nar"){NAR=!NAR;if(NAR)say();else{try{speechSynthesis.cancel()}catch(e){}}}
+upl();const t=document.querySelector("#pl");if(t&&k==="nar")t.querySelector('[data-v="nar"]').focus()}
+function vids(){return`<section class="hero"><div class="eb" style="color:#9fd0bd">Watch and learn</div><h1>Video lessons</h1><p>Short animated lessons for every module. Press play, step through scenes, or turn on narration to hear each scene read aloud.</p></section>
+<div class="grid"><div>${ALL.map((m,i)=>`<button class="mod" data-v="m" data-a="${i}" ${i===VM?'aria-current="true"':''}><b>▶ ${m.t}</b><small>4 scenes · about 25 seconds</small></button>`).join("")}</div>
+<div class="card"><div class="eb">Module ${VM+1} of ${ALL.length}</div><h3>${ALL[VM].t}</h3>${player()}
+<h3 style="margin-top:20px;font-size:1.05rem">Keep watching online</h3><p style="color:var(--mu);margin-top:4px">Opens a YouTube search for this topic. Choose videos from trusted channels, and ask your teacher if unsure.</p><p style="margin-top:8px"><a href="https://www.youtube.com/results?search_query=${encodeURIComponent(YT[VM])}" target="_blank" rel="noopener" style="color:var(--ac);font-weight:600">Search YouTube: ${YT[VM]} ↗</a></p></div></div>`}
+
+draw();
+</script></body></html>
